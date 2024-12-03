@@ -3,6 +3,7 @@ package org.kkbp.proyectointernacionalizacion.modelo;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.openxava.annotations.DescriptionsList;
 import org.openxava.annotations.Hidden;
 import org.openxava.annotations.Required;
 
@@ -13,10 +14,11 @@ import java.util.ArrayList;
 @Getter
 @Setter
 public class Faculty {
-    @Id @Hidden
+    @Id
+    @Hidden
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String oid;
+    private String faculty_oid;
 
     @Column(length = 50)
     @Required(message = "Debe ingresar el nombre de la facultad.")
@@ -31,5 +33,6 @@ public class Faculty {
     private String dean;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @DescriptionsList
     private Career career;
 }

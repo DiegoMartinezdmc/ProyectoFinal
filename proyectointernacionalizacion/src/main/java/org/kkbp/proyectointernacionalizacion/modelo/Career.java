@@ -18,7 +18,7 @@ public class Career {
     @Id @Hidden
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String oid;
+    private String career_oid;
 
     @Column(length = 100)
     @Required(message = "Debe ingresar el nombre completo de la carrera.")

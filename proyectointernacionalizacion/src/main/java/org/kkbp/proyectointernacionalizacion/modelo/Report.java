@@ -3,11 +3,13 @@ package org.kkbp.proyectointernacionalizacion.modelo;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import org.openxava.annotations.*;
+import org.openxava.annotations.DateTime;
+import org.openxava.annotations.DescriptionsList;
+import org.openxava.annotations.Hidden;
+import org.openxava.annotations.Required;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.Year;
 
 enum Semester {
     I, II
@@ -21,27 +23,21 @@ public class Report {
     @Hidden
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String oid;
+    private String report_oid;
 
     @Column(length = 60)
     @Required(message = "Debe ingresar el título del reporte.")
     private String title;
 
-    @DateTime
     @Required(message = "Debe ingresar la fecha de creación del reporte.")
     private LocalDate creationDate;
-
-    @Enumerated(EnumType.STRING)
-    @Required(message = "Debe especificar el semestre que comprende el reporte.")
-    private Semester semester;
-
 
     @Column(length = 4)
     @Required(message = "Debe especificar el año que comprende el reporte.")
     private String year;
 
-    @OneToOne
-    @Required(message = "Debe indicar la facultad a la que corresponde el reporte.")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @DescriptionsList
     private Faculty faculty;
 
     @Required(message = "Debe ingresar el número de estudiantes enviados.")
