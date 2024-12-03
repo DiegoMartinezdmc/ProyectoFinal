@@ -21,8 +21,18 @@
     	<class>com.openxava.naviox.model.SSORecord</class>
     	<class>com.openxava.naviox.model.User</class>
         <properties>
-            <property name="javax.persistence.schema-generation.database.action" value="update"/>
+			<!-- Configuración para registrar todas las consultas SQL -->
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.use_sql_comments" value="true"/>
+
+			<!-- Opcional: Registra las declaraciones SQL con más detalle -->
+			<property name="hibernate.type" value="trace"/>
+
+			<!-- Actualización de la base de datos, si necesario -->
+			<property name="javax.persistence.schema-generation.database.action" value="update"/>
         </properties>
+
     </persistence-unit>
                     
     <!-- JUnit Hypersonic -->
@@ -42,6 +52,6 @@
         <properties>
 			<property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost:1666"/>
         </properties>
-    </persistence-unit>    
-    
+    </persistence-unit>
+
 </persistence>
