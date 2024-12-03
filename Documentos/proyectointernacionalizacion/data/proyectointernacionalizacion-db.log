@@ -1,0 +1,8 @@
+/*C2*/SET SCHEMA PUBLIC
+DISCONNECT
+/*C3*/SET SCHEMA PUBLIC
+\u000d\u000a    create table Dashboard (\u000d\u000a       oid varchar(255) not null,\u000d\u000a        semester integer,\u000d\u000a        totalReceivedStudents integer not null,\u000d\u000a        totalReceivedTeachers integer not null,\u000d\u000a        totalSentStudents integer not null,\u000d\u000a        totalSentTeachers integer not null,\u000d\u000a        totalVirtualModeStudents integer not null,\u000d\u000a        totalVirtualModeTeachers integer not null,\u000d\u000a        year varchar(4),\u000d\u000a        faculty_faculty_oid varchar(255),\u000d\u000a        primary key (oid)\u000d\u000a    )
+\u000d\u000a    alter table Report \u000d\u000a       add column report_oid varchar(255) not null
+\u000d\u000a    alter table Report \u000d\u000a       add column faculty_faculty_oid varchar(255)
+\u000d\u000a    alter table Dashboard \u000d\u000a       add constraint FKsri9y2j5vst6blpqh8m6svtuf \u000d\u000a       foreign key (faculty_faculty_oid) \u000d\u000a       references Faculty
+\u000d\u000a    alter table Report \u000d\u000a       add constraint FKqtqspp2fms56mrrfboqkrevu8 \u000d\u000a       foreign key (faculty_faculty_oid) \u000d\u000a       references Faculty
