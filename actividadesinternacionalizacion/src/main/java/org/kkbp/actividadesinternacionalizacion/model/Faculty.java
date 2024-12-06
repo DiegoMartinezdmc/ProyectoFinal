@@ -18,15 +18,15 @@ public class Faculty {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String faculty_oid;
 
-    @Column(length = 50)
+    @Column(unique = true, length = 50)
     @Required(message = "Debe ingresar el nombre de la facultad.")
     private String name;
 
-    @Column(length = 6)
+    @Column(unique = true, length = 6)
     @Required(message = "Debe ingresar las iniciales de la facultad.")
     private String abbreviation;
 
-    @Column(length = 100)
+    @Column(unique = true, length = 100)
     @Required(message = "Debe ingresar el titulo y nombre del decano.")
     private String dean;
 
