@@ -1,38 +1,44 @@
 package org.kkbp.actividadesinternacionalizacion.dashboards;
 
+import java.util.*;
+import java.util.stream.*;
+
+import javax.persistence.*;
+
 import org.openxava.annotations.*;
 import org.openxava.jpa.*;
 
-@View(members="Global {" + "totalEvents;"
-+ "totalSentStudents, totalReceivedStudents, totalVirtualModeStudents;"
-+ "totalSentTeachers, totalReceivedTeachers, totalVirtualModeTeachers" + "}"
+@View(members="Global {" + "totalEvents; "
++ "totalSentStudents, totalReceivedStudents, totalVirtualModeStudents; "
++ "totalSentTeachers, totalReceivedTeachers, totalVirtualModeTeachers; "
++ "eventsPerFaculty" + "}"
 + "FIA {" 
-+ "totalEventsFia;"
-+ "totalSentStudentsFia, totalReceivedStudentsFia, totalVirtualModeStudentsFia;"
++ "totalEventsFia; "
++ "totalSentStudentsFia, totalReceivedStudentsFia, totalVirtualModeStudentsFia; "
 + "totalSentTeachersFia, totalReceivedTeachersFia, totalVirtualModeTeachersFia" + "}"
 + "FCM {" 
-+ "totalEventsFcm;"
-+ "totalSentStudentsFcm, totalReceivedStudentsFcm, totalVirtualModeStudentsFcm;"
++ "totalEventsFcm; "
++ "totalSentStudentsFcm, totalReceivedStudentsFcm, totalVirtualModeStudentsFcm; "
 + "totalSentTeachersFcm, totalReceivedTeachersFcm, totalVirtualModeTeachersFcm" + "}"
 + "FODO {" 
-+ "totalEventsFodo;"
-+ "totalSentStudentsFodo, totalReceivedStudentsFodo, totalVirtualModeStudentsFodo;"
++ "totalEventsFodo; "
++ "totalSentStudentsFodo, totalReceivedStudentsFodo, totalVirtualModeStudentsFodo; "
 + "totalSentTeachersFodo, totalReceivedTeachersFodo, totalVirtualModeTeachersFodo" + "}"
 + "FCAE {" 
-+ "totalEventsFcae;"
-+ "totalSentStudentsFcae, totalReceivedStudentsFcae, totalVirtualModeStudentsFcae;"
++ "totalEventsFcae; "
++ "totalSentStudentsFcae, totalReceivedStudentsFcae, totalVirtualModeStudentsFcae; "
 + "totalSentTeachersFcae, totalReceivedTeachersFcae, totalVirtualModeTeachersFcae" + "}"
 + "FCJHRI {" 
-+ "totalEventsFcjhri;"
-+ "totalSentStudentsFcjhri, totalReceivedStudentsFcjhri, totalVirtualModeStudentsFcjhri;"
++ "totalEventsFcjhri; "
++ "totalSentStudentsFcjhri, totalReceivedStudentsFcjhri, totalVirtualModeStudentsFcjhri; "
 + "totalSentTeachersFcjhri, totalReceivedTeachersFcjhri, totalVirtualModeTeachersFcjhri" + "}"
 + "FMDCC {" 
-+ "totalEventsFmdcc;"
-+ "totalSentStudentsFmdcc, totalReceivedStudentsFmdcc, totalVirtualModeStudentsFmdcc;"
++ "totalEventsFmdcc; "
++ "totalSentStudentsFmdcc, totalReceivedStudentsFmdcc, totalVirtualModeStudentsFmdcc; "
 + "totalSentTeachersFmdcc, totalReceivedTeachersFmdcc, totalVirtualModeTeachersFmdcc" + "}"
 + "COLLEGE {" 
-+ "totalEventsUamCol;"
-+ "totalSentStudentsUamCol, totalReceivedStudentsUamCol, totalVirtualModeStudentsUamCol;"
++ "totalEventsUamCol; "
++ "totalSentStudentsUamCol, totalReceivedStudentsUamCol, totalVirtualModeStudentsUamCol; "
 + "totalSentTeachersUamCol, totalReceivedTeachersUamCol, totalVirtualModeTeachersUamCol" + "}") 
 public class StatisticsDashboard {
 	@LargeDisplay(icon="account-multiple")
@@ -84,6 +90,23 @@ public class StatisticsDashboard {
 		return resultado != null ? resultado.toString() : "0";
 	}
 
+	@Chart
+	public Collection<TotalEventsPerFaculty> getEventsPerFaculty() {
+		String jpql = "select new org.kkb.actividadesinternacionalizacion.dashboards.TotalEventsPerFaculty("
+				+ "f.name, sum(r.events)"
+				+ "from Report r"
+				+ "join r.faculty f"
+				+ "group by f.name";
+		TypedQuery<TotalEventsPerFaculty> query = XPersistence.getManager()
+				.createQuery(jpql, TotalEventsPerFaculty.class);
+		List<TotalEventsPerFaculty> results = query.getResultList();
+		if (results == null || results.isEmpty()) {
+			return Collections.emptyList();
+		}
+		return results.stream().filter(Objects::nonNull).collect(Collectors.toList());
+		// return query.getResultList();
+	}
+	
 	// FIA
 	@LargeDisplay(icon="account-multiple")
 	public String getTotalEventsFia() {
